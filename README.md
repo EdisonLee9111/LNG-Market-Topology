@@ -38,7 +38,7 @@ Specific outputs consumed:
 
 ### [LNG-Alpha-Feed](https://github.com/EdisonLee9111/LNG-Alpha-Feed-trading-signal-system-design)
 
-Alpha-Feed classifies real-time news flow from the Bluesky firehose by structural market impact category rather than surface sentiment. In this project, it provides **causal disambiguation**: when the inference engine detects an anomaly, Alpha-Feed's output helps determine whether there is a public information explanation (a reported outage, a policy announcement, a weather event) or whether the anomaly is likely driven by private counterparty action.
+Alpha-Feed classifies real-time news flow from the Bluesky firehose by structural market impact category rather than surface sentiment. In this project, it provides **causal gating**: when the inference engine detects an anomaly, Alpha-Feed's output determines whether there is a public information explanation (a reported outage, a policy announcement, a weather event) or whether the anomaly is likely driven by private counterparty action. When a public explanation exists, the inference engine suppresses activation rather than computing a posterior over private behaviors.
 
 Specific outputs consumed:
 - Event classification tags (supply disruption, policy shift, demand signal, etc.)
@@ -54,7 +54,7 @@ Specific outputs consumed:
 │   ┌──────────┐  ┌──────────────┐  ┌──────────────┐     │
 │   │ Topology │  │   Bayesian   │  │   Shadow     │     │
 │   │  Graph   │──│  Inference   │──│   Price      │     │
-│   │          │  │   Engine     │  │   Engine     │     │
+│   │          │  │ (Two-Pass)   │  │   Engine     │     │
 │   └──────────┘  └──────┬───────┘  └──────────────┘     │
 │                        │                                │
 │         ┌──────────────┼──────────────┐                 │
@@ -66,7 +66,7 @@ Specific outputs consumed:
    │   Monitor   │ │   Study   │ │   Feed     │
    │             │ │           │ │            │
    │  Rational   │ │  Anomaly  │ │  Causal    │
-   │  Baseline   │ │  Trigger  │ │  Filter    │
+   │  Baseline   │ │  Trigger  │ │  Gate      │
    └─────────────┘ └───────────┘ └────────────┘
 ```
 
@@ -91,7 +91,14 @@ Maps what is physically and institutionally possible. This layer is largely dete
 - Seasonal maintenance schedules for major terminals
 - Regulatory triggers (Chinese NDRC winter supply mandates, typically issued October-November)
 
-Implementation: `topology_graph.py` builds the physical graph; `state_calendar.py` maintains the institutional prior calendar.
+**Constraint transmission channels**:
+Constraints propagate through the network via two distinct mechanisms:
+- **Direct Physical Transmission (Topological Binding)**: Players directly relying on a severed route or bottleneck face an absolute collapse of their feasible action space. Their resulting behavior is deterministic and highly price-insensitive.
+- **Indirect Market-Mediated Transmission (Induced Binding)**: Players whose physical supply chains are intact are still affected. The price-insensitive actions of topologically constrained players endogenously shift global market clearing prices (e.g., JKM surges), subjecting physically unaffected players to a tightened, higher-cost operating environment.
+
+Misclassifying an induced-constraint player as binding-constrained produces systematically wrong inferences — predicting distressed procurement when the player may actually be positioned to profit from the crisis.
+
+Implementation: `topology_graph.py` builds the physical graph; `vulnerability_matrix.py` pre-computes exposure metrics for each major bottleneck-player combination; `state_calendar.py` maintains the institutional prior calendar.
 
 ### Signal Layer
 
@@ -116,6 +123,12 @@ Ingests observable market data and computes deviations from the constraint-impli
 
 Computes a posterior probability distribution over counterparty behaviors, conditioned on the observed signal combination and the active constraint set.
 
+**Two-Pass Inference Structure**:
+Because binding constraints generate highly deterministic behavior, the inference engine operates sequentially rather than computing a joint posterior over all players simultaneously:
+- **First Pass (Topological/Direct Binding)**: The model targets players facing the tightest physical and institutional constraints (producing lowest posterior entropy). The output is a highly localized, deterministic demand shock vector (e.g., KOGAS must procure *X* spot cargoes, irrespective of price, before *Date Y*).
+- **Transition (Market Clearing)**: First-pass outputs are aggregated against global spare supply to endogenously calculate the shift in market conditions (e.g., JKM price spike).
+- **Second Pass (Market-Mediated/Induced)**: The model targets physically unaffected players (e.g., JERA) using the shifted market conditions as an updated prior. Their hypothesis space is evaluated against the new equilibrium, determining whether they will absorb the elevated marginal cost, hold their position, or actively resell into the tightened market to capture the premium generated by First-Pass players.
+
 **Bayesian attribution model** (`bayesian_attr_model.py`):
 
 The model maintains a set of behavioral hypotheses for each major player type — seasonal restocking, opportunistic arbitrage, portfolio rebalancing, distressed procurement, strategic pre-positioning. For each hypothesis *h*, given observed signal vector *s* and active institutional state *c*:
@@ -129,7 +142,9 @@ P(h | s, c) ∝ P(s | h, c) · P(h | c)
 
 **Shadow price engine** (`shadow_price_engine.py`):
 
-When observed behavior violates the Arbitrage Monitor's rational baseline, the shadow price engine quantifies the implied cost of the hidden constraint driving that behavior. If a cargo is routed to a lower-netback destination, the shadow price is the netback differential — the minimum value the player must be assigning to the non-economic factor (contract obligation, political mandate, storage constraint) to rationalize the decision.
+When observed behavior violates the Arbitrage Monitor's rational baseline, the shadow price engine quantifies the implied cost of the hidden constraint driving that behavior. The engine operates in dual-mode depending on the inference pass:
+- **Route Deviation Mode (First Pass & Normal conditions)**: If a cargo is routed to a lower-netback destination, the shadow price is the netback differential — the minimum value the player must be assigning to the non-economic factor (contract, mandate) to rationalize the decision.
+- **Price Premium Mode (Second Pass)**: In a market-mediated constraint scenario, the shadow price evaluates the marginal spot premium a player is willing to absorb (or capture via resale) over its long-term contract baseline, without requiring a physical route deviation.
 
 This provides a scalar measure of "how much is this player paying to do something that looks irrational?" — which in turn helps disambiguate between institutional pressure (high shadow price, suggesting hard deadline or political mandate) and strategic positioning (low shadow price, suggesting the deviation is near-marginal and likely opportunistic).
 
@@ -152,19 +167,19 @@ For initial development, the framework uses synthetic data generators calibrated
 
 ## Roadmap
 
-**Phase 1 — Physical Topology & Institutional Calendar**
-Build the directed graph representation of the global LNG network (terminals, routes, bottlenecks) and the institutional constraint calendar. Validate graph structure against historical flow data. Deliverable: a queryable constraint model that, given a player and a date, returns the feasible action set.
+**Phase 1 — Physical Topology, Institutional Calendar & Vulnerability Matrix**
+Build the directed graph representation of the global LNG network (terminals, routes, bottlenecks) and the institutional constraint calendar. Pre-compute the vulnerability matrix: for each major bottleneck (Hormuz, Panama, Malacca, Suez, major liquefaction terminals), classify each major buyer as binding-constrained or induced-constrained and estimate exposure magnitude. Validate graph structure against historical flow data. Deliverable: a queryable constraint model that, given a player, a date, and a disruption scenario, returns the feasible action set and constraint classification.
 
 **Phase 2 — Signal Integration & Shadow Price**
-Connect Arbitrage Monitor output to generate real-time deviation metrics. Implement shadow price calculation for observed flows that violate netback-optimal routing. Case study structured in two layers:
+Connect Arbitrage Monitor output to generate real-time deviation metrics. Implement dual-mode shadow price calculation (route deviation for binding constraints, price premium for induced constraints). Case study structured in two layers:
 
 - **Layer 1 (Historical Validation):** 2023-2024 Panama Canal drought — reconstruct Asian buyer behavior under canal capacity constraints and validate the framework against reported cargo rerouting.
-- **Layer 2 (Real-Time Stress Test):** Apply the validated framework to the 2026 Hormuz Strait crisis as a live out-of-sample test, generating falsifiable predictions about counterparty behavior under acute chokepoint disruption.
+- **Layer 2 (Real-Time Stress Test):** Apply the **Two-Pass Inference Structure** to the 2026 Hormuz Strait crisis as a live out-of-sample test, generating falsifiable predictions that distinguish between topological binding responses and market-induced strategic behaviors under acute chokepoint disruption.
 
 Full narrative, methodology, and hypotheses: [case_study_narrative.md](case_study_narrative.md).
 
 **Phase 3 — Bayesian Inference Engine**
-Implement the full posterior computation over counterparty behaviors. Integrate Event Study structural break detection as the trigger mechanism and Alpha-Feed news classification as the causal filter. Validate against known historical episodes where major player behavior was retrospectively reported (e.g., PetroChina's 2021 winter restocking, European buyers' post-Freeport LNG scramble in 2022).
+Implement the full two-pass posterior computation over counterparty behaviors. Integrate Event Study structural break detection as the trigger mechanism and Alpha-Feed news classification as the causal gate. Validate against known historical episodes where major player behavior was retrospectively reported (e.g., PetroChina's 2021 winter restocking, European buyers' post-Freeport LNG scramble in 2022).
 
 **Phase 4 — Cross-Market Signals & Entropy Detection**
 Extend signal layer to include FX hedging flow and freight market activity. Implement entropy-based detection for algorithmically obfuscated order flow — identifying periods where market noise is "too smooth" relative to expected variance under natural supply-demand dynamics.
@@ -175,7 +190,7 @@ Extend signal layer to include FX hedging flow and freight market activity. Impl
 
 These hypotheses are formally developed in the [case study narrative](case_study_narrative.md) (Sections 5–6), where each is operationalized with specific data requirements and decision thresholds. The framework makes specific, testable predictions:
 
-**Constraint Binding → Inference Precision**: When a physical bottleneck becomes binding (e.g., Panama Canal transit slots drop below a threshold), the posterior entropy over counterparty behavior should decrease — meaning inference becomes sharper. If bottleneck proximity has no measurable effect on inference quality, the core premise of constraint-based inference is wrong.
+**Constraint Binding → Inference Precision**: When a physical bottleneck becomes binding (e.g., Panama Canal transit slots drop below a threshold), the posterior entropy over counterparty behavior should decrease — meaning inference becomes sharper. Under the two-pass structure, this hypothesis extends naturally: first-pass (binding-constrained) players should show the sharpest inference gains, while second-pass (induced-constrained) players' inference precision depends on the quality of the first-pass output and the transition step's market impact estimate. If bottleneck proximity has no measurable effect on inference quality, the core premise of constraint-based inference is wrong.
 
 **Institutional Calendar → Regime Switching**: Prediction accuracy for major players should show statistically significant improvement when institutional priors are active versus inactive. Specifically: JERA-related behavioral predictions should be more accurate in January-March (fiscal year-end) than in other quarters; Chinese SOE predictions should be more accurate in October-December (post-NDRC winter mandate). If calendar-conditioned priors do not outperform flat priors, the institutional constraint layer adds no value.
 
