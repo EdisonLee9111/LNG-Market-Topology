@@ -40,28 +40,28 @@ Historical backtesting against fully resolved data. These are retrospective vali
 
 Inferences generated in early March 2026 by transferring the Layer 1 constraint reasoning logic to the Hormuz multi-bottleneck crisis. Classified by epistemic status at time of analysis.
 
-### JERA
+### JERA (Second Pass / Induced Binding)
 
 | ID | Inference | Classification | Status (2026.3.13) | Verification Source |
 |:---|:---|:---|:---|:---|
-| B1 | Standard procurement channels severed; JERA shifts to distressed spot at $5-10/MMBtu premium over rational baseline | **(F)** Constraint model: Hormuz closure + LoTSA 2.0 lockout → procurement channel collapse | ⏳ Pending | JKM spot vs. long-term contract pricing; JERA procurement disclosures |
-| B2 | Activation of JERA-KOGAS physical swap mechanism | **(F)** Layer 1 validated behavioral pattern (Signal ②) transferred to new constraint configuration | ⏳ Pending | Cargo tracking (Kpler/SynMax); JERA-KOGAS public statements |
-| B3 | JERA petitions METI for emergency inter-utility swap authorization | **(F)** Institutional calendar: March 31 ToP deadline + supply cutoff → regulatory escalation | ⏳ Pending | METI press releases; Japanese energy press |
-| B4 | JKM surges +40% over pre-crisis baseline, exceeding $22.50/MMBtu | **(E)** JKM was already elevated at time of analysis | ✅ Observed (pre-existing) | Platts JKM assessment |
-| B5 | Negishi terminal inventory drawdown exceeds seasonal norm by >2x in March | **(F)** Physical topology: Middle East supply cutoff → accelerated drawdown on receiving terminals | ⏳ Pending | METI weekly petroleum statistics |
-| B6 | Material time-lag IFRS losses in FY2025/2026 earnings | **(F)** Institutional calendar: procurement cost recognition in Q4 FY2025, tariff recovery deferred to FY2026 | ⏳ Pending May 2026 | JERA annual report (expected May 2026) |
+| B1 | Standard procurement channels remain intact; JERA avoids distressed spot market. May hold position or act as net reseller if US FOB / Australian flexible volumes allow arbitrage. | **(F)** Constraint model: Intact physical supply + elevated JKM → hold/resale capacity rather than distressed procurement | ⏳ Pending | JKM spot vs. long-term contract pricing; JERA procurement disclosures |
+| B2 | Activation of JERA-KOGAS physical swap mechanism, but on highly asymmetric terms favoring JERA's surplus position | **(F)** Layer 1 validated behavior transferred to new constraint configuration with altered bargaining power | ⏳ Pending | Cargo tracking (Kpler/SynMax); JERA-KOGAS public statements |
+| B3 | METI may proactively coordinate inter-utility reallocation to support highly exposed Asian buyers; JERA participates as surplus holder | **(F)** Institutional calendar: Supply cutoff driven regulatory intervention | ⏳ Pending | METI press releases; Japanese energy press |
+| B4 | First-pass distressed procurement (e.g., KOGAS) forces JKM >$22.50 | **(F)** Internal market clearing mechanism driven by First Pass players | ✅ Observed (pre-existing) | Platts JKM assessment |
+| B5 | Negishi terminal inventory drawdown only exceeds seasonal norm IF severe oil price spike ($100+ Brent) triggers domestic gas-to-power switching | **(F)** Conditional inference; JERA's physical supply routes are unaffected by Hormuz | ⏳ Pending | METI weekly petroleum statistics |
+| B6 | Localized marginal spot premium costs appearing in FY2025/2026 earnings, but lacking systemic IFRS time-lag losses | **(F)** Institutional calendar: procurement cost recognition limited to marginal spot volumes | ⏳ Pending May 2026 | JERA annual report (expected May 2026) |
 
-### KOGAS
+### KOGAS (First Pass / Direct Binding)
 
 | ID | Inference | Classification | Status (2026.3.13) | Verification Source |
 |:---|:---|:---|:---|:---|
 | B7 | Price-insensitive spot procurement triggered by UGBA legal floor proximity | **(F)** Institutional constraint: UGBA Article 10-10 → behavioral override of price rationality | ⏳ Pending | KOGAS procurement data; Korean energy press |
-| B8 | Acceptance of asymmetric terms in JERA swap arrangements | **(F)** Constraint intersection: KOGAS near-term deficit + JERA near-term surplus → cooperative behavior (Layer 1 validated) | ⏳ Pending | Bilateral trade flow data |
+| B8 | Acceptance of asymmetric terms in JERA swap arrangements | **(F)** Constraint intersection: KOGAS direct physical deficit vs JERA induced pricing → asymmetric cooperative behavior | ⏳ Pending | Bilateral trade flow data |
 | B9 | Acceleration of 70% FOB domestic-carrier mandate | **(E)** Policy signals already visible at time of analysis | ✅ Enacted (MOF/MOTIE) | Strategy Group 2024 report |
-| B10 | KOGAS inventory days approach 37-day UGBA statutory threshold | **(F)** Physical drawdown model: post-winter nadir + supply cutoff | ⏳ Pending | KOGAS monthly inventory reports |
+| B10 | KOGAS inventory days approach 37-day UGBA statutory threshold | **(F)** Physical drawdown model: post-winter nadir + direct supply cutoff | ⏳ Pending | KOGAS monthly inventory reports |
 | B11 | MOTIE activates elevated energy emergency protocols | **(F)** Institutional trigger: UGBA 7-day consecutive violation → mandatory protocol activation | ⏳ Pending | MOTIE official announcements |
 
-### Chinese SOEs
+### Chinese SOEs (Buffered First Pass)
 
 | ID | Inference | Classification | Status (2026.3.13) | Verification Source |
 |:---|:---|:---|:---|:---|
@@ -92,9 +92,8 @@ All items below are classified **(F)** Framework-derived—they follow from the 
 
 | ID | Prediction | Verification Deadline | Verification Source | Status |
 |:---|:---|:---|:---|:---|
-| C1 | METI weekly LNG inventory data for the JERA system will show a consecutive declining trend from March 13-31, with the final week's drawdown rate exceeding the 5-year seasonal average by ≥1.5x | 2026.4.7 (next METI weekly release after FY-end) | METI Weekly Petroleum Statistics (石油統計速報) | ⏳ |
-| C2 | JERA FY2025 annual report will show time-lag IFRS procurement losses materially exceeding FY2024 levels—estimated range: ¥[TBD] billion | 2026.5.15 (earnings release) | JERA Integrated Report / IR presentation | ⏳ |
-| C3 | JERA will petition METI for emergency inter-utility physical swap authorization before March 31, or evidence of such swaps will appear in cargo tracking data | 2026.3.31 | METI press releases; cargo tracking (Kpler/SynMax) | ⏳ |
+| C1 | Conditional: IF Brent crude sustains >$100 causing domestic gas-to-power switching, Negishi drawdown will exceed normal seasonal usage. If Brent drops below $90, drawdown stays normal | 2026.4.7 (next METI weekly release after FY-end) | METI Weekly Petroleum Statistics (石油統計速報) | ⏳ |
+| C2 | JERA FY2025 annual report will show time-lag IFRS procurement losses heavily concentrated in marginal spot trades rather than systemic portfolio failure — estimated impact scaled down to ¥[TBD] billion | 2026.5.15 (earnings release) | JERA Integrated Report / IR presentation | ⏳ |
 
 ### KOGAS (Verification window: 2026.3.31 — 2026.5.15)
 
@@ -122,11 +121,11 @@ All items below are classified **(F)** Framework-derived—they follow from the 
 
 | Category | Count | Earliest Verification | Latest Verification |
 |:---|:---|:---|:---|
-| JERA | 3 | 2026.3.31 | 2026.5.15 |
+| JERA | 2 | 2026.3.31 | 2026.5.15 |
 | KOGAS | 3 | 2026.3.31 | 2026.5.15 |
 | Chinese SOEs | 2 | 2026.4.15 | 2026.5.15 |
 | Market-wide | 2 | 2026.3.31 | 2026.3.31 |
-| **Total** | **10** | **2026.3.31** | **2026.5.15** |
+| **Total** | **9** | **2026.3.31** | **2026.5.15** |
 
 ---
 
