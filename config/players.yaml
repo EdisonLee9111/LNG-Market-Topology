@@ -1,0 +1,110 @@
+# Player Profiles
+# Embodies the two-dimensional (Exposure × Buffer) classification framework
+
+KOGAS:
+  full_name: "Korea Gas Corporation"
+  fiscal_year_end: "12-31"
+  annual_volume_mt: 40.0
+  supply_sources:
+    qatar: 0.32
+    australia: 0.22
+    us_gulf: 0.18
+    southeast_asia: 0.15
+    other: 0.13
+  buffer:
+    pipeline_alternatives: 0.0          # Korea has no pipeline imports
+    storage_capacity_days: 45           # total tank capacity
+    domestic_production_share: 0.02
+  institutional_constraints:
+    - type: "UGBA_inventory_floor"
+      threshold_days: 37                # 7+30 day redline (Article 10-10)
+      penalty: "MOTIE emergency protocol"
+      monitoring: "daily"
+      trigger_rule: "7_consecutive_days_below"
+    - type: "price_inversion"
+      description: "Spot procurement at global prices, domestic tariff caps"
+      effect: "uncollected receivables accumulation"
+
+JERA:
+  full_name: "JERA Co., Inc."
+  fiscal_year_end: "03-31"
+  annual_volume_mt: 33.0
+  supply_sources:
+    australia: 0.50
+    southeast_asia: 0.20
+    us_gulf: 0.15
+    middle_east: 0.06                   # <-- critical number for Hormuz classification
+    other: 0.09
+  buffer:
+    pipeline_alternatives: 0.0
+    storage_capacity_days: 30
+    domestic_production_share: 0.03
+  institutional_constraints:
+    - type: "ToP_deadline"
+      window: "Q4_fiscal"               # Jan-Mar
+      penalty: "shortfall_payment"
+    - type: "IFRS_time_lag"
+      description: "Procurement cost recognition locked to fiscal window"
+
+CNOOC:
+  full_name: "China National Offshore Oil Corporation"
+  fiscal_year_end: "12-31"
+  annual_volume_mt: 28.0
+  supply_sources:
+    australia: 0.30
+    southeast_asia: 0.20
+    middle_east: 0.25
+    us_gulf: 0.10
+    other: 0.15
+  buffer:
+    pipeline_alternatives: 0.35         # Power of Siberia, Central Asia pipelines
+    storage_capacity_days: 60
+    domestic_production_share: 0.55     # China produces ~55% of its gas domestically
+  institutional_constraints:
+    - type: "NDRC_winter_mandate"
+      window: "Nov-Mar"
+      penalty: "political accountability"
+    - type: "residential_priority"
+      description: "NDRC mandates residential supply over industrial"
+
+Sinopec:
+  full_name: "China Petroleum & Chemical Corporation"
+  fiscal_year_end: "12-31"
+  annual_volume_mt: 18.0
+  supply_sources:
+    australia: 0.25
+    middle_east: 0.30
+    southeast_asia: 0.15
+    us_gulf: 0.10
+    other: 0.20
+  buffer:
+    pipeline_alternatives: 0.35
+    storage_capacity_days: 55
+    domestic_production_share: 0.55
+  institutional_constraints:
+    - type: "NDRC_winter_mandate"
+      window: "Nov-Mar"
+      penalty: "political accountability"
+    - type: "residential_priority"
+      description: "NDRC mandates residential supply over industrial"
+
+CNPC:
+  full_name: "China National Petroleum Corporation"
+  fiscal_year_end: "12-31"
+  annual_volume_mt: 22.0
+  supply_sources:
+    central_asia_pipeline: 0.30
+    russia_pipeline: 0.15
+    australia: 0.15
+    middle_east: 0.20
+    other: 0.20
+  buffer:
+    pipeline_alternatives: 0.45         # Strongest pipeline position among Chinese SOEs
+    storage_capacity_days: 65
+    domestic_production_share: 0.55
+  institutional_constraints:
+    - type: "NDRC_winter_mandate"
+      window: "Nov-Mar"
+      penalty: "political accountability"
+    - type: "residential_priority"
+      description: "NDRC mandates residential supply over industrial"

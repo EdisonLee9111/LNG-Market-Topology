@@ -1,0 +1,63 @@
+# Strait of Hormuz Closure Scenario (Layer 2: 2026.1 — 2026.3+)
+# Compounded with Panama LoTSA 2.0 enforcement
+
+scenario:
+  name: "Strait of Hormuz Closure + LoTSA 2.0"
+  type: "binary_shutoff"
+  bottleneck: "hormuz_strait"
+  trigger: "Geopolitical closure of Strait of Hormuz"
+  start_date: "2026-02-28"
+  end_date: null                       # ongoing at time of analysis
+
+# Binary: Hormuz routes are fully severed
+capacity_timeline:
+  "2026-02": 999     # normal until late Feb
+  "2026-03": 0       # complete closure
+
+# LoTSA 2.0 compounding effect
+lotsa_2_0:
+  allocation_window: "2026-01-04 to 2026-07-04"
+  bidding_deadline: "2025-10-28"
+  neopanamax_long_term_slots_per_day: 3    # reduced from 4 under LoTSA 1.0
+  lng_flexslot_eligible: false              # LNG explicitly excluded from FlexSlot+
+  effect: "USGC-to-Asia Panama route operationally severed for unplanned cargoes"
+
+# Player classification thresholds (two-dimensional framework)
+classification_thresholds:
+  binding_exposure_min: 0.15           # >15% volume through Hormuz → candidate for binding
+  induced_exposure_max: 0.05           # <5% → definitively induced
+  buffer_override_threshold: 0.45      # buffer_score > 0.45 can override binding → buffered
+  # Buffer = 0.50×pipeline_alt + 0.25×(storage_days/65) + 0.25×domestic_share
+  # Threshold chosen to separate Chinese SOEs (≥0.52) from KOGAS/JERA (≤0.18)
+
+# Computed classifications (from vulnerability_matrix + players.yaml)
+player_classifications:
+  KOGAS:
+    exposure_score: 0.32               # 32% from Qatar via Hormuz
+    buffer_score: 0.18                 # no pipeline, limited storage, minimal domestic
+    constraint_class: "binding"
+  JERA:
+    exposure_score: 0.06               # ~6% Middle East
+    buffer_score: 0.12
+    constraint_class: "induced"
+  CNOOC:
+    exposure_score: 0.25               # 25% Middle East
+    buffer_score: 0.54                 # pipeline + storage + domestic production
+    constraint_class: "buffered"
+  Sinopec:
+    exposure_score: 0.30
+    buffer_score: 0.52
+    constraint_class: "buffered"
+  CNPC:
+    exposure_score: 0.20
+    buffer_score: 0.61                 # strongest pipeline position
+    constraint_class: "buffered"
+
+# Market parameters at crisis onset
+market_params:
+  jkm_pre_crisis: 14.50               # $/MMBtu
+  jkm_crisis_observed: 22.50          # $/MMBtu (already observed at analysis date)
+  ttf_pre_crisis: 11.00
+  brent_range: [85, 110]               # $/bbl uncertainty range
+  tc_rate_crisis: 300000               # $/day (elevated)
+  global_spare_capacity_mt: 15.0       # estimated annual spare

@@ -1,0 +1,105 @@
+# LNG Terminal Nodes
+# Each terminal has: name, coordinates, capacity (MTPA), type, utilization rate
+
+liquefaction:
+  sabine_pass:
+    name: "Sabine Pass LNG"
+    region: "US Gulf Coast"
+    coords: [29.74, -93.85]
+    capacity_mtpa: 30.0
+    type: "liquefaction"
+    utilization: 0.92
+
+  cameron:
+    name: "Cameron LNG"
+    region: "US Gulf Coast"
+    coords: [29.78, -93.33]
+    capacity_mtpa: 13.5
+    type: "liquefaction"
+    utilization: 0.88
+
+  corpus_christi:
+    name: "Corpus Christi LNG"
+    region: "US Gulf Coast"
+    coords: [27.83, -97.07]
+    capacity_mtpa: 25.0
+    type: "liquefaction"
+    utilization: 0.90
+
+  ras_laffan:
+    name: "Ras Laffan LNG"
+    region: "Middle East"
+    coords: [25.93, 51.53]
+    capacity_mtpa: 77.0
+    type: "liquefaction"
+    utilization: 0.95
+
+  northwest_shelf:
+    name: "North West Shelf LNG"
+    region: "Australia"
+    coords: [-20.62, 116.73]
+    capacity_mtpa: 16.9
+    type: "liquefaction"
+    utilization: 0.85
+
+  ichthys:
+    name: "Ichthys LNG"
+    region: "Australia"
+    coords: [-12.20, 131.00]
+    capacity_mtpa: 8.9
+    type: "liquefaction"
+    utilization: 0.90
+
+  bintulu:
+    name: "Bintulu LNG (MLNG)"
+    region: "Southeast Asia"
+    coords: [3.17, 113.04]
+    capacity_mtpa: 29.3
+    type: "liquefaction"
+    utilization: 0.82
+
+regasification:
+  incheon:
+    name: "Incheon LNG Terminal"
+    region: "South Korea"
+    coords: [37.45, 126.60]
+    capacity_mtpa: 46.8
+    type: "regasification"
+    utilization: 0.78
+    operator: "KOGAS"
+
+  negishi:
+    name: "Negishi LNG Terminal"
+    region: "Japan"
+    coords: [35.38, 139.63]
+    capacity_mtpa: 8.4
+    type: "regasification"
+    utilization: 0.72
+    operator: "JERA"
+
+  futtsu:
+    name: "Futtsu LNG Terminal"
+    region: "Japan"
+    coords: [35.30, 139.83]
+    capacity_mtpa: 19.5
+    type: "regasification"
+    utilization: 0.75
+    operator: "JERA"
+
+  dapeng:
+    name: "Dapeng LNG Terminal"
+    region: "China"
+    coords: [22.55, 114.55]
+    capacity_mtpa: 7.0
+    type: "regasification"
+    utilization: 0.85
+    operator: "CNOOC"
+
+  zhoushan:
+    name: "Zhoushan LNG Terminal"
+    region: "China"
+    coords: [29.95, 122.10]
+    capacity_mtpa: 3.0
+    type: "regasification"
+    utilization: 0.80
+    operator: "CNOOC"

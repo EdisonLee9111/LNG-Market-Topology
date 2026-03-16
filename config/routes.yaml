@@ -1,0 +1,144 @@
+# LNG Shipping Routes (Edges)
+# Each route: origin, destination, distance_nm, transit_days, toll_usd, bog_rate
+
+routes:
+  # === US Gulf Coast to Northeast Asia ===
+  usgc_asia_panama:
+    origin: "sabine_pass"
+    destination: "incheon"
+    via: "panama_canal"
+    distance_nm: 9200
+    transit_days: 25
+    toll_usd: 1000000
+    bog_rate: 0.001       # 0.1% daily
+    capacity_constraint: "panama_canal"
+
+  usgc_asia_cape:
+    origin: "sabine_pass"
+    destination: "incheon"
+    via: "cape_of_good_hope"
+    distance_nm: 14800
+    transit_days: 40
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: null
+
+  usgc_asia_suez:
+    origin: "sabine_pass"
+    destination: "incheon"
+    via: "suez_canal"
+    distance_nm: 13200
+    transit_days: 37
+    toll_usd: 500000
+    bog_rate: 0.001
+    capacity_constraint: "suez_canal"
+
+  # === Middle East to Northeast Asia ===
+  qatar_korea_direct:
+    origin: "ras_laffan"
+    destination: "incheon"
+    via: "hormuz_strait"
+    distance_nm: 6400
+    transit_days: 15
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: "hormuz_strait"
+
+  qatar_japan_direct:
+    origin: "ras_laffan"
+    destination: "futtsu"
+    via: "hormuz_strait"
+    distance_nm: 6800
+    transit_days: 15
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: "hormuz_strait"
+
+  qatar_china_direct:
+    origin: "ras_laffan"
+    destination: "dapeng"
+    via: "hormuz_strait"
+    distance_nm: 5600
+    transit_days: 14
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: "hormuz_strait"
+
+  # === Australia to Northeast Asia ===
+  australia_japan:
+    origin: "northwest_shelf"
+    destination: "futtsu"
+    via: "direct"
+    distance_nm: 3600
+    transit_days: 10
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: null
+
+  australia_korea:
+    origin: "northwest_shelf"
+    destination: "incheon"
+    via: "direct"
+    distance_nm: 3900
+    transit_days: 11
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: null
+
+  australia_china:
+    origin: "northwest_shelf"
+    destination: "dapeng"
+    via: "direct"
+    distance_nm: 3100
+    transit_days: 9
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: null
+
+  # === Southeast Asia to Northeast Asia ===
+  sea_japan:
+    origin: "bintulu"
+    destination: "futtsu"
+    via: "direct"
+    distance_nm: 2800
+    transit_days: 8
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: null
+
+  sea_korea:
+    origin: "bintulu"
+    destination: "incheon"
+    via: "direct"
+    distance_nm: 2500
+    transit_days: 7
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: null
+
+  sea_china:
+    origin: "bintulu"
+    destination: "dapeng"
+    via: "direct"
+    distance_nm: 1700
+    transit_days: 5
+    toll_usd: 0
+    bog_rate: 0.001
+    capacity_constraint: null
+
+# Bottleneck definitions
+bottlenecks:
+  panama_canal:
+    name: "Panama Canal (Neopanamax Locks)"
+    normal_capacity_transits_per_day: 37
+    lng_slots_per_day: 3    # LoTSA 2.0 long-term allocation
+
+  hormuz_strait:
+    name: "Strait of Hormuz"
+    normal_capacity_transits_per_day: 999   # effectively unconstrained under normal ops
+    lng_share_of_global_trade: 0.20
+
+  suez_canal:
+    name: "Suez Canal"
+    normal_capacity_transits_per_day: 50
+    lng_slots_per_day: 10

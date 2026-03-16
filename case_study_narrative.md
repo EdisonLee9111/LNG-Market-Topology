@@ -104,9 +104,23 @@ Before inferring behavior under constraint stacking (e.g., Hormuz closure), we m
 - **Transition (Market Clearing)**: The price-insensitive demands of First-Pass players enter the spot market, competing for limited spare supply. This collective action endogenously drives up global clearing prices (e.g., JKM surges).
 - **Second Pass (Indirect Market-Mediated Transmission / Induced Binding)**: Players whose physical supply chains are largely intact are still affected, not by physical absence, but by the tightened, high-cost market environment created during the Transition phase. Their constraint is economic rather than topological, leaving them with a wider, strategic behavioral hypothesis space (e.g., absorbing marginal costs, holding positions, or reselling). For instance, JERA sources approximately 50% of its 30-35 MT annual volume from Australia and ~20% from Southeast Asia, with Qatar exposure effectively below 2% of total volume — placing it unambiguously in the induced category for a Hormuz disruption.
 
+**Formal Player Classification Framework**: Rather than ad hoc categorization, constraint class is determined by two measurable dimensions:
+
+- **Exposure Score** = volume routed through disrupted node / total annual volume
+- **Buffer Score** = normalized composite of (pipeline import alternatives + storage capacity days + domestic production share)
+
+| Exposure | Buffer | Classification | Example |
+|---|---|---|---|
+| High (>15%) | Low (<0.3) | **First Pass / Binding** | KOGAS (32% Qatar via Hormuz, no pipelines, limited storage) |
+| Low (<5%) | Any | **Second Pass / Induced** | JERA (<6% Hormuz, intact Australia/US supply) |
+| High (>15%) | High (>0.7) | **Buffered First Pass** | Chinese SOEs (25%+ Hormuz, but pipeline + storage + domestic) |
+
+Classification thresholds are scenario-specific and must be declared explicitly in configuration. The thresholds above (15%, 5%, 0.3, 0.7) are calibrated to the Hormuz scenario; a Panama Canal scenario would use different values reflecting the lower share of global trade affected.
 ---
 
 ## Section 4: Inference Layer — Posterior Behavior Attribution
+
+> **Methodological disclaimer**: Due to the extreme rarity of constraint-tightening events in LNG markets (major chokepoint disruptions occur perhaps once per decade), the Bayesian framework described below operates as structured expert judgment using probabilistic logic for internal consistency, not as a data-driven statistical model. Priors are calendar-driven binary indicators derived from known institutional deadlines; likelihoods are manually constructed signal-direction lookup tables reflecting domain expertise. The "posterior" is a consistency-checked weighted ranking, not a frequentist or conjugate-prior statistical estimate. This framing is chosen deliberately: it provides structured reasoning under radical uncertainty while being honest about the absence of sufficient historical episodes for statistical calibration.
 
 By overlaying the detected deviations from the rational baseline with the institutional calendar, we perform Bayesian attribution to determine whether actions are strategically or institutionally driven. In an environment devoid of certainty, tracing the behavior of state-backed actors through their systemic vulnerabilities is the only mechanism left for predictive analysis.
 
@@ -117,6 +131,8 @@ By overlaying the detected deviations from the rational baseline with the instit
 | ① Voyage Inflation | Broad acceptance of Cape rerouting; US to Asia exports +22%. | Medium | **Mixed** — Driven by ToP obligations but spot arbitrage compensation existed. |
 | ② JERA-KOGAS Swap | Signing of historic MOU to physically swap cargoes based on inventory timing. | Low for both parties (mutual swap avoided the prevailing spot premium) | **Institutional** — Both players faced conflicting rigid deadlines. |
 | ③ Record Japanese Resales | Japanese players resold 38.25 MT overseas in FY2023. | Negative (Profitable) | **Strategic** — Capitalizing on structural long-term surplus to play global arbitrage. |
+
+**Honest Limitations of Layer 1 Attribution**: The 3/3 attribution results above are retrospective identifications of causal mechanisms, not predictions. Applied to fully resolved historical data, the framework benefits from outcome knowledge that would not have been available in real time. Specifically: (1) the "medium" shadow price classification for Signal ① requires ex-post freight rate data; (2) the "institutional" attribution for Signal ② is supported by the publicly known MOU but the swap's execution timing was only confirmable after the fact; (3) the "strategic" classification for Signal ③ is straightforward given observed volumes but the record-setting magnitude was not ex-ante predictable. The framework's value here is in mechanism identification—correctly distinguishing institutional from strategic drivers—not in advance prediction.
 
 **Key Narrative**: The emergence of Signal ② validates the core hypothesis. When two players face unique but equally rigid institutional constraints, their cooperative behavior becomes predictable. JERA (pressured by its March 31 ToP deadline) possessed excess nearby inventory but lacked distant resupply. KOGAS (pressured by Dec 31 and statutory storage minimums) lacked immediate inventory but had pending resupply en route. The physical swap was the exact, unique mathematical solution to the intersection of their constraint sets (Energy Desk 2024). This was not a function of free-market trading, but of institutional survival math.
 
